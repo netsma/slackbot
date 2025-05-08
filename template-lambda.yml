@@ -24,6 +24,7 @@ Parameters:
 ##########################################################################
 #   Globals
 #   https://docs.aws.amazon.com/ko_kr/serverless-application-model/latest/developerguide/sam-specification-template-anatomy-globals.html
+#   AWS Lambda 서버리스 애플리케이션을 위한 글로벌 속성
 ##########################################################################
 Globals:
   Function:
@@ -38,6 +39,9 @@ Globals:
       DefaultName: !Sub ${DefaultName}
     AutoPublishAlias: !Ref StageType
 
+##########################################################################
+#AWS 리소스 선언/정의
+##########################################################################
 Resources:
   ##########################################################################
   #   AWS::Serverless::LayerVersion
@@ -45,13 +49,13 @@ Resources:
   #   AWS Lambda에서 사용할 공통 라이브러리 
   ##########################################################################
   SharedLayer:
-    Type: AWS::Serverless::LayerVersion
+    Type: AWS::Serverless::LayerVersion  #AWS Lambda Layer
     Properties:
       CompatibleRuntimes:
         - !Sub ${PythonVersion}
       ContentUri: layer
       Description: Provides the base backend shared library and dependencies
-      LayerName: !Sub ${ServiceType}-${DefaultName}-shared-layer
+      LayerName: !Sub ${ServiceType}-${DefaultName}-shared-layer # DEV-sns-slack-shared-layer
     Metadata:
       BuildMethod: !Sub ${PythonVersion} # Required to have AWS SAM build this layer
   ########################################################################## 
